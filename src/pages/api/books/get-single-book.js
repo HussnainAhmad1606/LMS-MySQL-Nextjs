@@ -3,10 +3,11 @@ const jwt = require("jsonwebtoken")
 const  handler = async(req, res) => {
 
 try {
- 
+    let bookId = req.body.bookId;
+  
 
    
-const response = await runQuery(`SELECT * FROM books`, []);
+const response = await runQuery(`SELECT * FROM books where id=${bookId}`, []);
 
 var type = "";
 if (response.length==0) {
@@ -14,8 +15,8 @@ if (response.length==0) {
 }
 else {
     type= "success"
-    var token = jwt.sign({ username: response.username, email: response.email, avatar: response.avatar}, process.env.NEXT_PUBLIC_JWT_TOKEN);
-    return res.status(200).json({type:type, response: response, token: token})
+    
+    return res.status(200).json({type:type, response: response})
     
 }
 
