@@ -1,9 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SiSimpleanalytics } from "react-icons/si";
-import { BsClipboard2Data } from "react-icons/bs";
-import { CgGym } from "react-icons/cg";
-import { FaRegCalendarAlt } from "react-icons/fa";
 
 export default function Home() {
   return (
