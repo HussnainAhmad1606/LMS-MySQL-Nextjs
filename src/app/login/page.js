@@ -5,7 +5,7 @@ import { useUserStore } from "@/store/store";
 const Login = () => {
   const [email, SetEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {setIsLogin, setAvatar, setEmail, setUsername} = useUserStore();
+  const {setIsLogin, setUserId, setEmail, setUsername} = useUserStore();
   const handleSubmit = async(event) => {
     const data = {
       username: email,
@@ -28,9 +28,9 @@ const Login = () => {
       setIsLogin(true);
       setUsername(result.response[0].username)
       setEmail(result.response[0].email)
-      setAvatar(result.response[0].avatar)
+      setUserId(result.response[0].id)
       toast.success("Logged In Success");
-      localStorage.setItem("fittrek-token", result.token);
+      localStorage.setItem("lms-token", result.token);
     }
     else {
       toast.error("Wrong credentials")

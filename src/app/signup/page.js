@@ -11,9 +11,8 @@ const Signup = () => {
     console.log("Submitting")
     const data = {
       username: username,
-      email: email,
       password: password,
-      avatar: ""
+  
     }
    
     const req = await fetch("/api/auth/signup",{
@@ -42,19 +41,7 @@ const Signup = () => {
         
           <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
             <div className="card-body">
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Email</span>
-                </label>
-                <input
-                  type="email"
-                  placeholder="email"
-                  className="input input-bordered"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
+              
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">User Name</span>

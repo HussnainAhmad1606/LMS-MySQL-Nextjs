@@ -7,17 +7,20 @@ import Card from "@/components/Card"
 const Login = () => {
   const [email, SetEmail] = useState("");
   const [books, setBooks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const {setIsLogin, setAvatar, setEmail, setUsername} = useUserStore();
   const getBooks = async(event) => {
-   
+    setIsLoading(true);
+    
     const req = await fetch("http://localhost:3000/api/books/get-books")
-
+    
     const result = await req.json();
     console.log(result);
-
+    
     if (result.type == "success"){
       setBooks(result.response)
-     
+      setIsLoading(false);
+      
     }
   
   };
@@ -28,8 +31,17 @@ const Login = () => {
   
 
   return (
-    <div>
+    <div style={{
+      minHeight: "80vh"
+    }}>
       <h1 className="text-center font-bold text-4xl my-10">Available Books</h1>
+      {
+        isLoading?(
+          <div className="flex justify-center items-center">
+          <span className="loading loading-spinner loading-lg"></span>
+            </div>
+        ):null
+      }
       <div
         className="grid grid-cols-3 gap-10 my-10"
        

@@ -9,7 +9,7 @@ try {
 
     console.log(`INSERT INTO users values ('${username}', '${password}')`)
    
-const response = await runQuery(`INSERT INTO users values ('${username}', '${password}')`, []);
+const response = await runQuery(`INSERT INTO users(username, password) values ('${username}', '${password}')`, []);
 
 const data = JSON.stringify(response);
 

@@ -2,6 +2,7 @@ import { create } from 'zustand'
 
 export const useUserStore = create((set) => ({
   isLogin: false,
+  userId: 0,
   Username: "",
   UserId: "",
   email: "",
@@ -18,6 +19,7 @@ export const useUserStore = create((set) => ({
 
 
   setFirstName: (newState) => set({ firstName:newState}),
+  setUserId: (newState) => set({ UserId:newState}),
   setLastName: (newState) => set({ lastName:newState}),
   setIsLogin: (newState) => set({ isLogin:newState}),
   setUsername: (newState) => set({ Username:newState}),
