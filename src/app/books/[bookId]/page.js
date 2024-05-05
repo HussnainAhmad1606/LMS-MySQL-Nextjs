@@ -4,12 +4,16 @@ import { toast } from "react-hot-toast";
 import { useUserStore } from "@/store/store";
 import { useEffect } from "react";
 import Card from "@/components/Card";
+import Trr from "@/components/Trr";
 const Book = ({ params }) => {
   const { bookId } = params;
   const [email, SetEmail] = useState("");
   const [studentName, setStudentName] = useState("");
   const [studentRollNo, setStudentRollNo] = useState("");
+  const [borrowers, setBorrowers] = useState([]);
   const [book, setBook] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
   const { setIsLogin, setAvatar, Username, setEmail, setUsername } = useUserStore();
 
   const borrowBook = async() =>{
@@ -33,10 +37,36 @@ const Book = ({ params }) => {
     console.log(result);
 
     if (result.type == "success") {
-      setBook(result.response[0]);
+    toast.success("Book borrowed");
+      
     }
   }
+
+  const showBorrowerslist = async() =>{
+    const data = {
+      bookId: bookId
+    };
+    console.log(data);
+
+    const req = await fetch("http://localhost:3000/api/books/show-borrower-list", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await req.json();
+    console.log(result);
+
+    if (result.type == "success") {
+      setBorrowers(result.response);
+    }
+    setIsLoading(false);
+
+  }
   const getBook = async (event) => {
+    setIsLoading(true);
     const data = {
       bookId: bookId,
     };
@@ -60,6 +90,7 @@ const Book = ({ params }) => {
 
   useEffect(() => {
     getBook();
+    showBorrowerslist();
   }, []);
 
   return (
@@ -104,6 +135,48 @@ const Book = ({ params }) => {
           </div>
         </div>
       </div>
+    </div>
+
+
+
+    <div>
+      <h1 className="my-10 text-center text-4xl font-bold">Borrower List</h1>
+
+     {
+      isLoading==false&&borrowers.length==0?(
+        <h1 className="my-10 font-bold text-3xl text-center">No Borrowers Found</h1>
+
+      ):(
+        <div className="overflow-x-auto">
+        <table className="table table-zebra">
+          {/* head */}
+          <thead>
+            <tr>
+              <th></th>
+              <th>Student Name</th>
+              <th>Student Roll No</th>
+              <th>Librarian</th>
+              <th>Issued on</th>
+            </tr>
+          </thead>
+          <tbody>
+            {/* row 1 */}
+            {
+              borrowers.map((borrower, index)=> {
+                return (
+                  <Trr key={index} srNo={index+1} studentName={borrower.studentName} librarian={borrower.librarian} rollNo={borrower.studentId} borrowDate={borrower.borrowDate}/>
+                )
+              })
+            }
+           
+          </tbody>
+        </table>
+      </div>
+      )
+     }
+
+
+     
     </div>
     </div>
   );

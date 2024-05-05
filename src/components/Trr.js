@@ -3,13 +3,11 @@ import React from "react";
 const Trr = (params) => {
   return (
     <tr>
-      <th></th>
-      <td>{params.name}</td>
-      <td>{params.time}</td>
-      <td>{params.cal}</td>
-      <td>
-        <button className=" btn btn-sm btn-primary">Advance</button>
-      </td>
+      <th>{params.srNo}</th>
+      <td>{params.studentName}</td>
+      <td>{params.rollNo}</td>
+      <td>{params.librarian}</td>
+      <td>{params.borrowDate}</td>
     </tr>
   );
 };

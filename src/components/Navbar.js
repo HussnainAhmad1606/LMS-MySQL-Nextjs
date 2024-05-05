@@ -1,15 +1,21 @@
 "use client"
 import React from "react";
 import { FaBars } from "react-icons/fa";
-import { CiSettings } from "react-icons/ci";
-import { IoCartOutline } from "react-icons/io5";
-import { CiHeart } from "react-icons/ci";
-import { HiOutlineUser } from "react-icons/hi2";
-import { CiLogin } from "react-icons/ci";
-import { CiLogout } from "react-icons/ci";
+
+import { toast } from "react-hot-toast";
+
 import Link from "next/link";
 import {useUserStore} from "@/store/store";
 const Navbar = () => {
+
+  const {setIsLogin} = useUserStore();
+
+  const logout = () => {
+    setIsLogin(false);
+    localStorage.removeItem("lms-token");
+    toast.success("Log Out Success");
+
+  }
 
   const {isLogin, Username} = useUserStore();
   return (
@@ -85,8 +91,7 @@ const Navbar = () => {
               <div className="w-10 rounded-full">
                 <img
                   alt="Tailwind CSS Navbar component"
-                  src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                />
+                  src={`https://ui-avatars.com/api/?name=${Username}&background=random`} />
               </div>
             </div>
             <ul
@@ -96,14 +101,13 @@ const Navbar = () => {
               <li>
                 <Link href={"/dashboard"} className="justify-between">
                   Welcome, {Username}
-                  <span className="badge">New</span>
                 </Link>
               </li>
               <li>
-                <a>Settings</a>
+                <Link href={"/dashboard"}>Dashboard</Link>
               </li>
               <li>
-                <a>Logout</a>
+                <button onClick={logout}>Logout</button>
               </li>
             </ul>
           </div>
