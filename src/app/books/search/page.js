@@ -4,16 +4,28 @@ import { toast } from "react-hot-toast";
 import { useUserStore } from "@/store/store";
 import { useEffect } from "react";
 import Card from "@/components/Card"
-import Link from "next/link";
 const Login = () => {
-  const [email, SetEmail] = useState("");
+  const [query, setQuery] = useState("");
+  const [filterBy, setFilterBy] = useState("title");
   const [books, setBooks] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const {setIsLogin, setAvatar, setEmail, setUsername} = useUserStore();
   const getBooks = async(event) => {
-    setIsLoading(true);
+      setIsLoading(true);
+    const data = {
+        query: query,
+        filterBy: filterBy
+    }
+
+    console.log(data)
     
-    const req = await fetch("http://localhost:3000/api/books/get-books")
+    const req = await fetch("http://localhost:3000/api/books/filter-books", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
     
     const result = await req.json();
     console.log(result);
@@ -23,11 +35,15 @@ const Login = () => {
       setIsLoading(false);
       
     }
+    else {
+        setBooks([])
+    }
+    setIsLoading(false);
   
   };
 
   useEffect(() => {
-    getBooks();
+  
   }, [])
   
 
@@ -35,12 +51,31 @@ const Login = () => {
     <div style={{
       minHeight: "80vh"
     }}>
-      <div className="flex justify-center items-center">
       <h1 className="text-center font-bold text-4xl my-10">Available Books</h1>
-
-      <Link href={"/books/search"} className={"mx-5 btn btn-primary"}>Search Book</Link>
-
+      <div className="flex justify-center items-center">
+      <div className="join">
+  <div>
+    <div>
+      <input value={query} onChange={e=>setQuery(e.target.value)} className="input input-bordered join-item" placeholder="Search"/>
+    </div>
+  </div>
+  <select onChange={e=>setFilterBy(e.target.value)} value={filterBy} className="select select-bordered join-item">
+    <option value={"title"}>Title</option>
+    <option value={"author"}>Author</option>
+    <option value={"category"}>Category</option>
+  </select>
+  <div className="indicator">
+    <button onClick={getBooks} className="btn join-item">Search</button>
+  </div>
+</div>
       </div>
+
+{
+    isLoading==false&&books.length==0?(
+        <h1 className="text-center my-10">No books found</h1>
+
+    ):null
+}
       {
         isLoading?(
           <div className="flex justify-center items-center">
