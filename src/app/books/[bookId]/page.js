@@ -166,8 +166,9 @@ const Book = ({ params }) => {
             {/* row 1 */}
             {
               borrowers.map((borrower, index)=> {
+                console.log(borrower)
                 return (
-                  <Trr key={index} srNo={index+1} studentName={borrower.studentName} librarian={borrower.librarian} rollNo={borrower.studentId} borrowDate={borrower.borrowDate}/>
+                  <Trr id={borrower.borrowBook_id} key={index} srNo={index+1} studentName={borrower.studentName} librarian={borrower.librarian} rollNo={borrower.studentId} borrowDate={borrower.borrowDate}/>
                 )
               })
             }
