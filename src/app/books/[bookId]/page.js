@@ -40,6 +40,9 @@ const Book = ({ params }) => {
     toast.success("Book borrowed");
       
     }
+    else {
+      toast.error(result.message)
+    }
   }
 
   const showBorrowerslist = async() =>{

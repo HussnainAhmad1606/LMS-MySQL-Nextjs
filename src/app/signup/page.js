@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -6,6 +7,7 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async(event) => {
     console.log("Submitting")
@@ -30,7 +32,8 @@ const Signup = () => {
       toast.error(res.message)
     }
     else {
-      toast.success("account creation Success")
+      toast.success("account creation Success");
+      router.push("/login")
     }
   };
 

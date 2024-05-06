@@ -2,7 +2,9 @@
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useUserStore } from "@/store/store";
+import { useRouter } from "next/navigation";
 const Login = () => {
+  const router = useRouter();
   const [email, SetEmail] = useState("");
   const [password, setPassword] = useState("");
   const {setIsLogin, setUserId, setEmail, setUsername} = useUserStore();
@@ -31,6 +33,7 @@ const Login = () => {
       setUserId(result.response[0].id)
       toast.success("Logged In Success");
       localStorage.setItem("lms-token", result.token);
+      router.push("/")
     }
     else {
       toast.error("Wrong credentials")
